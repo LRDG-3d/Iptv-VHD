@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
+import { viaProxy } from '../config.js'
 
 const ICONS = {
   play: 'M8 5v14l11-7z',
@@ -77,7 +78,7 @@ export default function Player({ channel, onPrev, onNext, live = true, active = 
   useEffect(() => {
     const video = videoRef.current
     if (!channel) return
-    const url = channel.url
+    const url = viaProxy(channel.url)
     let hls = null
     let tries = 0
 

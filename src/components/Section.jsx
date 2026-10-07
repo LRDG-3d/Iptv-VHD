@@ -3,6 +3,7 @@ import Player from './Player.jsx'
 import ChannelList from './ChannelList.jsx'
 import { parseM3U, classify } from '../lib/m3u.js'
 import { useLocalStorage } from '../lib/useLocalStorage.js'
+import { viaProxy } from '../config.js'
 
 const IPTV = 'https://iptv-org.github.io/iptv/'
 const PRESETS = [
@@ -42,7 +43,7 @@ export default function Section({ kind, active }) {
     if (!src) return
     const ctrl = new AbortController()
     setMsg('Cargando lista…')
-    fetch(src, { signal: ctrl.signal })
+    fetch(viaProxy(src), { signal: ctrl.signal })
       .then((r) => { if (!r.ok) throw new Error(); return r.text() })
       .then((t) => apply(parseM3U(t)))
       .catch((e) => {
